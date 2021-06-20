@@ -1,0 +1,167 @@
+#include <iostream>
+#include <stdio.h>
+#include <conio.h>
+
+class Character {
+private:
+	int m_hp;
+	int m_atk;
+public:
+	Character(int dHp, int dAtk) { m_hp = dHp; m_atk = dAtk; }
+	int EnemyDamage(int* hp, int atk, bool magicFlag);
+	int PlayerDamage(int* hp, int atk) { *hp = *hp - atk; return *hp; }
+	int Recovery(int* hp, int recovery) { *hp = *hp + recovery; return *hp; }
+};
+
+int Character::EnemyDamage(int* hp, int atk, bool magicFlag) {
+	switch (magicFlag) {
+	case true:
+		*hp = *hp - (atk + 1);
+		return *hp;
+		break;
+	default:
+		*hp = *hp - atk;
+		return *hp;
+	}
+}
+
+int main() {
+	int player_hp = 10;
+	int* player_php;
+	player_php = &player_hp;
+
+	int enemy_hp = 10;
+	int* enemy_php;
+	enemy_php = &enemy_hp;
+
+	int atk = 1;
+	int recovery = 2;
+
+	int action;
+	int magic_List;
+	bool escape_Flag = 0;
+
+	Character Player(player_hp, atk);
+	Character Enemy(enemy_hp, atk);
+
+	while (1) {
+		std::cout << "PLAYER STATUS　HP：" << player_hp << std::endl
+			<< "ENEMY STATUS　HP：" << enemy_hp << std::endl << std::endl
+			<< "1.たたかう　2.呪文リスト　3.逃げる" << std::endl << std::endl << "どうする？";
+		std::cin >> action;
+
+		switch (action) {
+		case 1:
+			std::cout << "PLAYERの攻撃!!" << std::endl;
+			Enemy.EnemyDamage(&enemy_hp, atk, 0);
+			std::cout << "ENEMYに1のダメージ" << std::endl; (void)_getch();
+			std::cout << "ENEMYの攻撃!!" << std::endl;
+			Player.PlayerDamage(&player_hp, atk);
+			std::cout << "PLAYERに1のダメージ" << std::endl; (void)_getch();
+
+			break;
+		case 2:
+				std::cout << "黒魔法　1.ファイア　2.ブリザド　3.ウォータ　4.エアロ　5.サンダー" << std::endl
+				<< "白魔法　6.ケアル" << std::endl << std::endl
+				<< "どの呪文を使いますか？ > ";
+			std::cin >> magic_List;
+
+			switch (magic_List) {
+			case 1:
+				std::cout << "PLAYERの「ファイア」!!" << std::endl;
+				Enemy.EnemyDamage(&enemy_hp, atk, 1);
+				std::cout << "ENEMYに2のダメージ" << std::endl; (void)_getch();
+				std::cout << "ENEMYの攻撃!!" << std::endl;
+				Player.PlayerDamage(&player_hp, atk);
+				std::cout << "PLAYERに1のダメージ" << std::endl; (void)_getch();
+				break;
+			case 2:
+				std::cout << "PLAYERの「ブリザド」!!" << std::endl;
+				Enemy.EnemyDamage(&enemy_hp, atk, 1);
+				std::cout << "ENEMYに2のダメージ" << std::endl; (void)_getch();
+				std::cout << "ENEMYの攻撃!!" << std::endl;
+				Player.PlayerDamage(&player_hp, atk);
+				std::cout << "PLAYERに1のダメージ" << std::endl; (void)_getch();
+				break;
+			case 3:
+				std::cout << "PLAYERの「ウォータ」!!" << std::endl;
+				Enemy.EnemyDamage(&enemy_hp, atk, 1);
+				std::cout << "ENEMYに2のダメージ" << std::endl; (void)_getch();
+				std::cout << "ENEMYの攻撃!!" << std::endl;
+				Player.PlayerDamage(&player_hp, atk);
+				std::cout << "PLAYERに1のダメージ" << std::endl; (void)_getch();
+				break;
+			case 4:
+				std::cout << "PLAYERの「エアロ」!!" << std::endl;
+				Enemy.EnemyDamage(&enemy_hp, atk, 1);
+				std::cout << "ENEMYに2のダメージ" << std::endl; (void)_getch();
+				std::cout << "ENEMYの攻撃!!" << std::endl;
+				Player.PlayerDamage(&player_hp, atk);
+				std::cout << "PLAYERに1のダメージ" << std::endl; (void)_getch();
+				break;
+			case 5:
+				std::cout << "PLAYERの「サンダー」!!" << std::endl;
+				Enemy.EnemyDamage(&enemy_hp, atk, 1);
+				std::cout << "ENEMYに2のダメージ" << std::endl; (void)_getch();
+				std::cout << "ENEMYの攻撃!!" << std::endl;
+				Player.PlayerDamage(&player_hp, atk);
+				std::cout << "PLAYERに1のダメージ" << std::endl; (void)_getch();
+				break;
+			case 6:
+				std::cout << "PLAYERの「ケアル」!!" << std::endl;
+				Player.Recovery(&player_hp, recovery);
+				std::cout << "PLAYERは2回復した" << std::endl; (void)_getch();
+				std::cout << "ENEMYの攻撃!!" << std::endl;
+				Player.PlayerDamage(&player_hp, atk);
+				std::cout << "PLAYERに1のダメージ" << std::endl; (void)_getch();
+				break;
+			default:
+				std::cout << "指定されているいずれかのボタンを押してください。" << std::endl;
+
+				(void)_getch();
+			}
+
+			break;
+		case 3:
+			escape_Flag += 1;
+			std::cout << "PLAYERは逃げ出した!!" << std::endl;
+
+			(void)_getch();
+
+			break;
+		default:
+			std::cout << "指定されているいずれかのボタンを押してください。" << std::endl;
+
+			(void)_getch();
+		}
+
+		if (escape_Flag == 1)
+			break;
+		if (enemy_hp < 0 || enemy_hp == 0)
+			break;
+		if (player_hp < 0 || player_hp == 0)
+			break;
+	}
+
+	if (escape_Flag == 1) {
+		std::cout << "逃げる事に成功した" << std::endl;
+		
+		(void)_getch();
+	}
+
+	if (player_hp < 0 && enemy_hp < 0 || player_hp == 0 && enemy_hp == 0) {
+		std::cout << "相打ち..." << std::endl;
+
+		(void)_getch();
+	} else if (enemy_hp < 0 || enemy_hp == 0) {
+		std::cout << "ENEMY DOWN!!" << std::endl;
+		std::cout << "GAME CLEAR!!" << std::endl;
+
+		(void)_getch();
+	}else if (player_hp < 0 || player_hp == 0) {
+		std::cout << "PLAYER DOWN..." << std::endl;
+		std::cout << "GAME OVER!!" << std::endl;
+		
+		(void)_getch();
+	}
+}
