@@ -1,1 +1,0 @@
-# samakeke_practice
